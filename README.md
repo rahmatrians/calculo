@@ -1,4 +1,4 @@
-Caculo created using React Native App
+Calculo created using React Native App
 
 
 Author by RahmatRians
