@@ -28,6 +28,12 @@ const App = () => {
     setNumber(number + val);
   }
   
+  const removeOne = () => {
+    value.pop();
+    setNumber(number.slice(0,-1));
+    console.log("removed");
+  }
+
   const operator = (opr) => {
     if (tempVal) {
       value.push(parseInt(tempVal));
@@ -53,32 +59,37 @@ const App = () => {
 
 
       
-    for (let x = 0; x < (value.length-1)/2; x++) {
+    for (let x = (value.length-1)/2; x > 0 ; x--) {
       var datax = [];
       value.filter((vals, idx) => (vals === '/' || vals === 'x') && (datax.push(idx)));
       console.log("datax : ", datax);
-      console.log("value:", value);
-      console.log("operator :", datax[0]);
-
-      if (value[datax[0]] === '/') {
-        var data =  value[datax[0]-1] / value[datax[0]+1];
-        console.log("data : ", data);
-        value.splice(datax[0]-1, 1, data);
-        // console.log(value[datax[0]-1], "/", value[datax[0]+1]);
-      } else if (value[datax[0]] === 'x') {
-        var data =  value[datax[0]-1] * value[datax[0]+1];
-        console.log("data : ", data);
-        value.splice(datax[0]-1, 1, data);
-        // console.log(value[datax[0]-1], "*", value[datax[0]+1]);
+      if (datax.length === 0) {
+        break;        
       } else {
-        console.log("e");
-      }
-      value.splice(datax[0], 2);
-      console.log("valss : ", value);
+        console.log("value:", value);
+        console.log("operator :", datax[0]);
 
+        if (value[datax[0]] === '/') {
+          var data =  value[datax[0]-1] / value[datax[0]+1];
+          console.log("data : ", data);
+          value.splice(datax[0]-1, 1, data);
+          // console.log(value[datax[0]-1], "/", value[datax[0]+1]);
+        } else if (value[datax[0]] === 'x') {
+          var data =  value[datax[0]-1] * value[datax[0]+1];
+          console.log("data : ", data);
+          value.splice(datax[0]-1, 1, data);
+          // console.log(value[datax[0]-1], "*", value[datax[0]+1]);
+        } else {
+          console.log("e");
+        }
+        value.splice(datax[0], 2);
+        console.log("valss : ", value);
+      }
     }
 
-    for (let x = 0; x <= (value.length-1)/2; x++) {
+    console.log("============================================================");
+
+    for (let x = (value.length-1)/2; x > 0 ; x--) {
       var dataz = [];
       value.filter((vals, idx) => (vals === '-' || vals === '+') && (dataz.push(idx)));
       console.log("dataz : ", dataz);
@@ -101,21 +112,15 @@ const App = () => {
       value.splice(dataz[0], 2);
       console.log("valss : ", value);
       setNumber(value);
-
     }
-
-
-
   }
-  
-  const calculates = (value, index, array) => {
-  }
+ 
 
-  const dataLoop = (value, index, array) => {
-    // (index % 2 === 0 && index !== 0) && (getOperator.push(value)); //just example ternary without else condition by my experiment
-    index % 2 !== 0 && (getOperator.push(value));
-    console.log(getOperator);
-  }
+  // const dataLoop = (value, index, array) => {
+  //   (index % 2 === 0 && index !== 0) && (getOperator.push(value)); //just example ternary without else condition by my experiment
+  //   index % 2 !== 0 && (getOperator.push(value));
+  //   console.log(getOperator);
+  // }
 
   return (
     <View style={[styles.container, {flexDirection: "column"}]}>
@@ -124,7 +129,7 @@ const App = () => {
         </View>
         <View style={{ backgroundColor:'#2a2d37', flex:4, flexDirection:'column', padding:20}}>
           <View style={{ backgroundColor:'#2a2d37', flexDirection:'row', alignContent:'space-between'}}>
-            <TouchableOpacity onPress={() => addValue(0)} style={{ padding:20, margin:7, borderRadius:25,backgroundColor:'#282b33', flex:1 }}><Text style={{ textAlign:'center', color:'#31dcbe', fontSize:28 }}>C</Text></TouchableOpacity>
+            <TouchableOpacity onPress={() => removeOne()} style={{ padding:20, margin:7, borderRadius:25,backgroundColor:'#282b33', flex:1 }}><Text style={{ textAlign:'center', color:'#31dcbe', fontSize:28 }}>C</Text></TouchableOpacity>
             <TouchableOpacity onPress={() => operator("_")} style={{ padding:20, margin:7, borderRadius:25,backgroundColor:'#282b33', flex:1 }}><Text style={{ textAlign:'center', color:'#31dcbe', fontSize:28 }}>_</Text></TouchableOpacity>
             <TouchableOpacity onPress={() => operator("%")} style={{ padding:20, margin:7, borderRadius:25,backgroundColor:'#282b33', flex:1 }}><Text style={{ textAlign:'center', color:'#31dcbe', fontSize:28 }}>%</Text></TouchableOpacity>
             <TouchableOpacity onPress={() => operator("/")} style={{ padding:20, margin:7, borderRadius:25,backgroundColor:'#282b33', flex:1 }}><Text style={{ textAlign:'center', color:'#d16365', fontSize:28 }}>/</Text></TouchableOpacity>
